@@ -89,22 +89,24 @@ body {
   border-radius: 50%;
 }
 
-.highlight-red {
+.highlight-red
+,.highlight-red::after {
   --shadow-color: red;
   animation: 1s ease-in-out infinite alternate highlight-animation;
 }
 
-.highlight-blue {
+.highlight-blue
+,.highlight-blue::after {
   --shadow-color: blue;
   animation: 1s ease-in-out infinite alternate highlight-animation;
 }
 
 @keyframes highlight-animation {
   0% {
-    box-shadow: 0 0 5vw 1vw var(--shadow-color);
+    box-shadow: 0 0 5vh 1vh var(--shadow-color);
   }
-
+  
   100% {
-    box-shadow: 0 0 2vw 2vw var(--shadow-color);
+    box-shadow: 0 0 2vh 2vh var(--shadow-color);
   }
 }

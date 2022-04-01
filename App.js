@@ -16,8 +16,8 @@ const tickTakToe = (() => {
       O: 0
     };
 
-    for(let i = 0; i < gameBoard.length; i++) {
-      for(let j = 0; j < gameBoard[i].length; j++) {
+    for (let i = 0; i < gameBoard.length; i++) {
+      for (let j = 0; j < gameBoard[i].length; j++) {
         gameBoardEmptySlots.push(j + i * gameBoard[i].length);
       }
     }
@@ -25,15 +25,15 @@ const tickTakToe = (() => {
     return ({
       restartGame() {
         console.log('Game restarting');
-        
+
         gameBoard = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
         gameBoardEmptySlots = []
         gameState = 'Player X turn';
         winningCells = [];
         winningPlayer = '';
 
-        for(let i = 0; i < gameBoard.length; i++) {
-          for(let j = 0; j < gameBoard[i].length; j++) {
+        for (let i = 0; i < gameBoard.length; i++) {
+          for (let j = 0; j < gameBoard[i].length; j++) {
             gameBoardEmptySlots.push(j + i * gameBoard[i].length);
           }
         }
@@ -45,7 +45,7 @@ const tickTakToe = (() => {
           cell.querySelector('.icon').classList.remove('icon-o');
           cell.querySelector('.icon').classList.remove('icon-x');
         });
-        
+
         gameTable.removeEventListener('click', gameControl.restartGame);
       },
 
@@ -58,31 +58,31 @@ const tickTakToe = (() => {
       },
 
       playTurn(blockRow, blockColumn, newPlay) {
-        if(newPlay.match(/^[xo]$/i)) {
-          if(gameBoard[blockRow][blockColumn] === ' ') {
+        if (newPlay.match(/^[xo]$/i)) {
+          if (gameBoard[blockRow][blockColumn] === ' ') {
             gameBoard[blockRow][blockColumn] = newPlay.toUpperCase();
             // this.printBoard();
-            
+
             gameBoardEmptySlots.splice(
               gameBoardEmptySlots.indexOf(
                 blockRow * gameBoard[blockRow].length + blockColumn
               ), 1);
             // console.log(`gameBoardEmptySlots = ${gameBoardEmptySlots}`);
 
-            switch(gameState) {
+            switch (gameState) {
               case 'Player X turn':
-                
-                window.setTimeout(gameControl.computerPlayTurn, 500);
+
+                window.setTimeout(gameControl.computerPlayTurn, 300);
                 gameState = 'Player O turn';
                 break;
-                
+
               case 'Player O turn':
-                
+
                 gameState = 'Player X turn';
                 break;
-                
+
               case 'Game Ended':
-                
+
                 break;
 
               default:
@@ -102,7 +102,7 @@ const tickTakToe = (() => {
       },
 
       computerPlayTurn() {
-        if(gameState !== 'Player O turn') {
+        if (gameState !== 'Player O turn') {
           return;
         }
 
@@ -110,7 +110,7 @@ const tickTakToe = (() => {
           Math.floor(Math.random() * gameBoardEmptySlots.length)
         ];
         // console.log(`computerChoice = ${computerChoice}`);
-        
+
         gameControl.playTurn(
           parseInt(computerChoice / 3),
           computerChoice % 3,
@@ -119,7 +119,7 @@ const tickTakToe = (() => {
       },
 
       checkRowWinCondition(rowNum) {
-        if(gameBoard[rowNum][0] === ' ') {
+        if (gameBoard[rowNum][0] === ' ') {
           return '';
         }
 
@@ -131,40 +131,40 @@ const tickTakToe = (() => {
       },
 
       checkColumnWinCondition(columnNum) {
-        if(gameBoard[0][columnNum] === ' ') {
+        if (gameBoard[0][columnNum] === ' ') {
           return '';
         }
 
         let result = gameBoard.every((row) =>
           row[columnNum] === gameBoard[0][columnNum]
         );
-        
+
         return result ? gameBoard[0][columnNum] : '';
       },
 
       checkDiagonalWinCondition(diagonal) {
-        if(diagonal === 0) {
+        if (diagonal === 0) {
           // if Top-Left corner is empty
-          if(gameBoard[0][0] === ' ') {
+          if (gameBoard[0][0] === ' ') {
             return '';
           }
 
           let result = gameBoard.every((row, index) =>
             row[index] === gameBoard[0][0]
           );
-          
+
           return result ? gameBoard[0][0] : '';
         } else {
           // if Top-Right corner is empty
-          if(gameBoard[0][gameBoard[0].length - 1] === ' ') {
+          if (gameBoard[0][gameBoard[0].length - 1] === ' ') {
             return '';
           }
-          
+
           let result = gameBoard.every((row, index) =>
-            row[gameBoard[0].length - 1 - index] === 
-              gameBoard[0][gameBoard[0].length - 1]
+            row[gameBoard[0].length - 1 - index] ===
+            gameBoard[0][gameBoard[0].length - 1]
           );
-          
+
           return result ? gameBoard[0][gameBoard[0].length - 1] : '';
         }
       },
@@ -177,13 +177,13 @@ const tickTakToe = (() => {
           newPlay.match(/^[x]$/i) ? 'icon-x' : 'icon-o'
         );
 
-        for(let i = 0; i < gameBoard.length; i++) {
+        for (let i = 0; i < gameBoard.length; i++) {
           let checkWinner = gameControl.checkRowWinCondition(i)
-          if(checkWinner) {
+          if (checkWinner) {
             winningPlayer = checkWinner;
             console.log(`Win : Row[${i}]`);
-            
-            for(let j = 0; j < gameBoard[0].length; j++) {
+
+            for (let j = 0; j < gameBoard[0].length; j++) {
               winningCells.push(
                 gameCell[j + i * gameBoard[0].length]
               );
@@ -192,13 +192,13 @@ const tickTakToe = (() => {
           }
         }
 
-        for(let i = 0; i < gameBoard[0].length; i++) {
+        for (let i = 0; i < gameBoard[0].length; i++) {
           let checkWinner = gameControl.checkColumnWinCondition(i)
-          if(checkWinner) {
+          if (checkWinner) {
             winningPlayer = checkWinner;
             console.log(`Win : Column[${i}]`);
-            
-            for(let j = 0; j < gameBoard.length; j++) {
+
+            for (let j = 0; j < gameBoard.length; j++) {
               winningCells.push(
                 gameCell[i + j * gameBoard[0].length]
               );
@@ -207,13 +207,13 @@ const tickTakToe = (() => {
           }
         }
 
-        for(let i = 0; i < 2; i++) {
+        for (let i = 0; i < 2; i++) {
           let checkWinner = gameControl.checkDiagonalWinCondition(i)
-          if(checkWinner) {
+          if (checkWinner) {
             winningPlayer = checkWinner;
             console.log(`Win : Diagonal[${i}]`);
-            
-            if(i === 0) {
+
+            if (i === 0) {
               gameBoard.forEach((_, index) =>
                 winningCells.push(gameCell[index * (gameBoard.length + 1)])
               );
@@ -228,10 +228,10 @@ const tickTakToe = (() => {
           }
         }
 
-        if(winningPlayer) {
+        if (winningPlayer) {
           gameState = 'Game Ended';
 
-          if(winningPlayer === 'X') {
+          if (winningPlayer === 'X') {
             winningCells.forEach((cell) => {
               cell.querySelector('.icon').classList.add('highlight-red');
             })
@@ -250,12 +250,18 @@ const tickTakToe = (() => {
           window.setTimeout(() => {
             gameTable.addEventListener('click', gameControl.restartGame);
           }, 500);
+        } else if (gameBoardEmptySlots.length === 0) {
+          gameState = 'Game Ended';
+
+          window.setTimeout(() => {
+            gameTable.addEventListener('click', gameControl.restartGame);
+          }, 500);
         }
       },
 
       handleUserInput(event) {
         // console.log(event);
-        if(gameState === 'Player X turn') {
+        if (gameState === 'Player X turn') {
           let cellIndex = gameCell.indexOf(this);
           gameControl.playTurn(
             parseInt(cellIndex / 3),
